@@ -1,0 +1,56 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the main branch
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+      
+      # Runs a single command using the runners shell
+      - name: Set-up Node
+        uses: actions/setup-node@v1
+        with: 
+           node-version: 10.x
+      - name: Install Dependencies
+        run: | 
+          npm install --save-dev node-qunit-phantomjs
+          npm install --save-dev qunit
+          npm i eslint@5.16.0
+      - name: Test
+        run: node_modules/node-qunit-phantomjs/bin/node-qunit-phantomjs test.html
+
+      - name: Build
+        run: |
+          mkdir -p public
+          cp index.html public/index-v2.html
+          cp utils.js public/utils.js
+          cp twitter.css public/twitter.css
+          cp twitter-v2.js public/twitter-v2.js
+      - uses: actions/upload-artifact@v2
+        with:
+          name: website
+          path: public
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@4.1.4
+        with:
+          branch: gh-pages # The branch the action should deploy to.
+          folder: public
