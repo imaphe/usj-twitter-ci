@@ -41,7 +41,7 @@ jobs:
       - name: Build
         run: |
           mkdir -p public
-          cp index.html public/index-v2.html
+          cp index-v2.html public/index-v2.html
           cp utils.js public/utils.js
           cp twitter.css public/twitter.css
           cp twitter-v2.js public/twitter-v2.js
