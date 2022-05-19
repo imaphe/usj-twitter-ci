@@ -11,7 +11,7 @@ oneMp4 = [{
     url: 'https://video.twimg.com/video3.mp4'
   },
   {
-    bitrate: 42000,
+    bitrate: 43000,
     content_type: 'video/mp4',
     url: 'https://video.twimg.com/video4.mp4'
   }
