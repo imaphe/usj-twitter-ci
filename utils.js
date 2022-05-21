@@ -2,18 +2,25 @@
      This is necessary because tweets include multiple
      video urls with different qualities */
   var getBestVideo = function(mediaVariants) {
-    console.log(mediaVariants)
     var mp4Videos = getMp4Videos(mediaVariants);
-    var max = mp4Videos.reduce(function(prev, current) {
-      // The higher bitrate, the better quality
-      if (+current.bitrate > +prev.bitrate) {
-        return current;
+    var max = null;
+    if (mp4Videos.length !== 0) {
+      if (mp4Videos.length === 1) {
+        max = mp4Videos[0].url;
       } else {
-        return prev;
+        max = mp4Videos.reduce(function(prev, current) {
+          // The higher bitrate, the better quality
+          if (((!isNaN(current.bitrate)) &&
+              (+current.bitrate > +prev.bitrate)) ||
+              isNaN(prev.bitrate)){
+            return current.url;
+          } else {
+            return prev.url;
+          }
+        });
       }
-    });
-    console.log(max.url)
-    return max.url;
+    }
+    return max;
   }
 
   /* Gets the videos with mp4 format from the available ones.
