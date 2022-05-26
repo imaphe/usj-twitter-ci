@@ -20,3 +20,7 @@ oneMp4 = [{
 test("getBestVideo", function(assert) {
   assert.equal(getBestVideo(oneMp4), 'https://video.twimg.com/video4.mp4', '4_videos_one_mp4_last_one');
 });
+
+test("getBestVideo", function(assert) {
+  assert.equal(getBestVideo([]), null, 'null');
+});
